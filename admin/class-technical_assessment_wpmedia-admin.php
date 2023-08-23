@@ -100,4 +100,78 @@ class Technical_assessment_wpmedia_Admin {
 
 	}
 
+	public function add_menu()
+    {
+        // add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+		add_options_page(
+            'my plugin', // Titre de la page
+            'my plugin', // Titre du menu
+            'manage_options', // Capacité requise pour accéder à la page
+            'my-plugin-settings', // Slug de la page
+            array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page
+        );
+    }
+
+	public function admin_view() {
+        include( plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-admin-display.php' );
+    }
+
+	public function crawl_home_page() {
+
+		$site_url = sanitize_text_field($_POST['site_url']);
+		$this->generate_new_sitemap();
+
+    }
+
+	private function generate_new_sitemap() {
+		$sitemapPath = get_stylesheet_directory() . '/sitemap.xml';
+		if (file_exists($sitemapPath)) {
+			unlink($sitemapPath);
+		} 
+		$this->sitemap_generator();
+	}
+
+	private function sitemap_generator () {
+		
+		$url = home_url();
+		$html = file_get_contents($url);
+
+		if ($html !== false) {
+			$dom = new DOMDocument();
+			libxml_use_internal_errors(true); 
+			$dom->loadHTML($html);
+			libxml_clear_errors();
+
+			$urls = [];
+			$links = $dom->getElementsByTagName('a');
+
+			foreach ($links as $link) {
+				$href = $link->getAttribute('href');
+				if (!empty($href)) {
+					if (filter_var($href, FILTER_VALIDATE_URL) === false) {
+						$parsedUrl = parse_url($url);
+						$baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+						$href = $baseUrl . $href;
+					}
+					$urls[] = $href;
+				}
+			}
+			$sitemap = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+			$sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
+			foreach ($urls as $url) {
+				$sitemap .= "\t<url>" . PHP_EOL;
+				$sitemap .= "\t\t<loc>" . htmlspecialchars($url) . "</loc>" . PHP_EOL;
+				$sitemap .= "\t</url>" . PHP_EOL;
+			}
+			$sitemap .= '</urlset>';
+
+			file_put_contents(get_stylesheet_directory() . '/sitemap.xml', $sitemap);
+
+
+			echo 'success';
+		} else {
+			echo 'error';
+		}
+	}
+
 }
