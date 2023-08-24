@@ -102,14 +102,16 @@ class Technical_assessment_wpmedia_Admin {
 
 	public function add_menu()
     {
-        // add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
-		add_options_page(
-            'my plugin', // Titre de la page
-            'my plugin', // Titre du menu
-            'manage_options', // Capacité requise pour accéder à la page
-            'my-plugin-settings', // Slug de la page
-            array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page
-        );
+		if (current_user_can('administrator')) {
+			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+			add_options_page(
+				'my plugin', // Titre de la page
+				'my plugin', // Titre du menu
+				'manage_options', // Capacité requise pour accéder à la page
+				'my-plugin-settings', // Slug de la page
+				array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page
+			);
+		}
     }
 
 	public function admin_view() {
@@ -117,18 +119,24 @@ class Technical_assessment_wpmedia_Admin {
     }
 
 	public function crawl_home_page() {
-
-		$site_url = sanitize_text_field($_POST['site_url']);
-		$this->generate_new_sitemap();
-
+		$urls = $this->generate_new_sitemap();
+		$this->store_temporary_data($urls);
     }
 
 	private function generate_new_sitemap() {
 		$sitemapPath = get_stylesheet_directory() . '/sitemap.xml';
+		if (get_transient('site_map_url_tmp_data')) {
+			delete_transient('site_map_url_tmp_data');
+		}
 		if (file_exists($sitemapPath)) {
 			unlink($sitemapPath);
 		} 
-		$this->sitemap_generator();
+		return $this->sitemap_generator();
+	}
+
+	private function store_temporary_data ($data) {
+		$expiration = 3600;
+		set_transient('site_map_url_tmp_data', $data, $expiration);
 	}
 
 	private function sitemap_generator () {
@@ -164,11 +172,9 @@ class Technical_assessment_wpmedia_Admin {
 				$sitemap .= "\t</url>" . PHP_EOL;
 			}
 			$sitemap .= '</urlset>';
-
 			file_put_contents(get_stylesheet_directory() . '/sitemap.xml', $sitemap);
+			return $urls;
 
-
-			echo 'success';
 		} else {
 			echo 'error';
 		}

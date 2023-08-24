@@ -20,22 +20,27 @@
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
 <form method="POST" style="margin-top:50px;">
-  <label for="site_url">URL du site :</label>
-  <input type="text" name="site_url" id="site_url" required>
-
-  <label for="page_frequency">Fréquence des pages :</label>
-  <select name="page_frequency" id="page_frequency" required>
-    <option value="always">Toujours</option>
-    <option value="hourly">Toutes les heures</option>
-    <option value="daily">Tous les jours</option>
-    <option value="weekly">Toutes les semaines</option>
-    <option value="monthly">Tous les mois</option>
-    <option value="yearly">Tous les ans</option>
-    <option value="never">Jamais</option>
-  </select>
-
-  <label for="page_priority">Priorité des pages :</label>
-  <input type="number" name="page_priority" id="page_priority" min="0" max="1" step="0.1" required>
-
-  <input type="submit" name="crawl_home" value="Générer le sitemap">
+  <input type="submit" name="crawl_home" value="Generate sitemap">
 </form>
+
+<form method="POST" style="margin-top:50px;">
+    <input type="submit" name="get_data" value="Show data from storage">
+</form>
+
+<?php
+
+if (isset($_POST["crawl_home"]) || isset($_POST["get_data"])) {
+    $siteMapUrls = get_transient('site_map_url_tmp_data');
+
+    if ($siteMapUrls && is_array($siteMapUrls)) {
+        echo '<h2>Result from the sitemap</h2>';
+        echo '<ul>';
+        foreach ($siteMapUrls as $link) {
+            echo '<li>' . $link . '</li>';
+        }
+        echo '</ul>';
+    } else {
+        echo 'Error Loading Data';
+    }
+}
+?>
