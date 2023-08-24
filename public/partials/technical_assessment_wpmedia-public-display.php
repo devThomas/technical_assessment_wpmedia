@@ -14,3 +14,6 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
+<div class="sitemap-link">
+  <a href="<?php echo get_stylesheet_directory_uri() . '/sitemap.html'; ?>">My sitemap from my plugin</a>
+</div>

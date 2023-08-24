@@ -100,6 +100,7 @@ class Technical_assessment_wpmedia_Admin {
 
 	}
 
+
 	public function add_menu()
     {
 		if (current_user_can('administrator')) {
@@ -124,6 +125,7 @@ class Technical_assessment_wpmedia_Admin {
     }
 
 	private function generate_new_sitemap() {
+
 		$sitemapPath = get_stylesheet_directory() . '/sitemap.xml';
 		if (get_transient('site_map_url_tmp_data')) {
 			delete_transient('site_map_url_tmp_data');
@@ -131,6 +133,19 @@ class Technical_assessment_wpmedia_Admin {
 		if (file_exists($sitemapPath)) {
 			unlink($sitemapPath);
 		} 
+		if (isset($_POST['cron_checkbox']) && $_POST['cron_checkbox'] === 'on') {
+			//check if cron already exist
+			if (!wp_next_scheduled('cron_crawl_home_page')) {
+				// scale cron for crawl every hour
+				wp_schedule_event(time(), 'hourly', 'cron_crawl_home_page');
+			}
+		} else {
+			if(isset($_POST["crawl_home"])){
+				// delete the cron
+				wp_clear_scheduled_hook('cron_crawl_home_page');
+			}
+			
+		}
 		return $this->sitemap_generator();
 	}
 
@@ -143,16 +158,16 @@ class Technical_assessment_wpmedia_Admin {
 		
 		$url = home_url();
 		$html = file_get_contents($url);
-
+	
 		if ($html !== false) {
 			$dom = new DOMDocument();
 			libxml_use_internal_errors(true); 
 			$dom->loadHTML($html);
 			libxml_clear_errors();
-
+	
 			$urls = [];
 			$links = $dom->getElementsByTagName('a');
-
+	
 			foreach ($links as $link) {
 				$href = $link->getAttribute('href');
 				if (!empty($href)) {
@@ -164,15 +179,14 @@ class Technical_assessment_wpmedia_Admin {
 					$urls[] = $href;
 				}
 			}
-			$sitemap = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
-			$sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
+	
+			$sitemap_html = '<html><head><title>Sitemap</title></head><body><ul>';
 			foreach ($urls as $url) {
-				$sitemap .= "\t<url>" . PHP_EOL;
-				$sitemap .= "\t\t<loc>" . htmlspecialchars($url) . "</loc>" . PHP_EOL;
-				$sitemap .= "\t</url>" . PHP_EOL;
+				$sitemap_html .= '<li><a href="' . htmlspecialchars($url) . '">' . htmlspecialchars($url) . '</a></li>';
 			}
-			$sitemap .= '</urlset>';
-			file_put_contents(get_stylesheet_directory() . '/sitemap.xml', $sitemap);
+			$sitemap_html .= '</ul></body></html>';
+	
+			file_put_contents(get_stylesheet_directory() . '/sitemap.html', $sitemap_html);
 			return $urls;
 
 		} else {

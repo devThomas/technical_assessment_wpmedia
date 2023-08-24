@@ -2,3 +2,14 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ .sitemap-link {
+    text-align: center;
+    padding: 20px;
+    background-color:black;
+    color:white;
+ }
+
+ .sitemap-link > a {
+    color:white;
+ }
