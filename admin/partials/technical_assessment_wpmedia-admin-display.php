@@ -40,7 +40,7 @@ if (isset($_POST["crawl_home"]) || isset($_POST["get_data"])) {
         }
         echo '</ul>';
     } else {
-        echo 'Error Loading Data';
+        echo 'Error Loading Data : No data in the storage or the data is not valid';
     }
 }
 ?>
