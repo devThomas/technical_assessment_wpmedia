@@ -182,7 +182,7 @@ class Technical_assessment_wpmedia_Admin {
 			return $urls;
 
 		} else {
-			echo 'error Url not found';
+			echo 'error URL not found';
 		}
 	}
 
