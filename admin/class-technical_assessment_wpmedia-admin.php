@@ -173,12 +173,6 @@ class Technical_assessment_wpmedia_Admin {
 			}
 			$sitemap .= '</urlset>';
 			file_put_contents(get_stylesheet_directory() . '/sitemap.xml', $sitemap);
-			//storage the file in /upload 
-			$upload_dir = wp_upload_dir();
-			$upload_path = trailingslashit($upload_dir['path']);
-			$file_path = $upload_path . 'home.html';
-			file_put_contents($file_path, $html);
-
 			return $urls;
 
 		} else {
