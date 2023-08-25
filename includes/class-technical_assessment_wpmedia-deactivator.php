@@ -30,13 +30,11 @@ class Technical_assessment_wpmedia_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-		register_deactivation_hook(__FILE__, 'crawl_home_page');
+
+		
+		wp_clear_scheduled_hook('cron_crawl_home_page');
 
 	}
 
-	function my_custom_cron_deactivation() {
-		// delete cron task
-		wp_clear_scheduled_hook('crawl_home_page');
-	}
 
 }

@@ -115,6 +115,17 @@ class Technical_assessment_wpmedia_Admin {
 		}
     }
 
+	public function display_information($info = "") {
+
+		if($info !== "") {	?>
+			<div class="notice notice-info">
+				<p><?php echo __($info, 'technical_assessment_wpmedia'); ; ?></p>
+			</div>
+		<?php
+		}
+		
+	}
+
 	public function admin_view() {
         include( plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-admin-display.php' );
     }

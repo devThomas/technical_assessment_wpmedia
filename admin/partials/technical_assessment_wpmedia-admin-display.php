@@ -15,11 +15,10 @@
  if(isset($_POST["crawl_home"])){
     do_action('crawl_home_page');
  }
-
  if (wp_next_scheduled('cron_crawl_home_page')) {
-    echo 'The Cron Task is active , for disactivated please uncheck the checkbox';
+    do_action('admin_notices','cron_actif' );
 } else {
-    echo 'The Cron Task is not active, for activate please check the checkbox';
+    do_action('admin_notices','cron_not_actif' );
 }
 ?>
 
