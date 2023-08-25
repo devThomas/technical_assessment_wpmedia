@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin deactivation
  *
@@ -20,7 +19,7 @@
  * @subpackage Technical_assessment_wpmedia/includes
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia_Deactivator {
+class Tawp_Technical_Assessment_Wpmedia_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -31,10 +30,6 @@ class Technical_assessment_wpmedia_Deactivator {
 	 */
 	public static function deactivate() {
 
-		
-		wp_clear_scheduled_hook('cron_crawl_home_page');
-
+		wp_clear_scheduled_hook( 'cron_crawl_home_page' );
 	}
-
-
 }

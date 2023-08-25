@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -27,7 +26,7 @@
  * @subpackage Technical_assessment_wpmedia/includes
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia {
+class Tawp_Technical_Assessment_Wpmedia {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -78,7 +77,6 @@ class Technical_assessment_wpmedia {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -103,27 +101,26 @@ class Technical_assessment_wpmedia {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-technical_assessment_wpmedia-loader.php';
+		require_once plugin_dir_path( dirname( __DIR__ ) ) . 'technical_assessment_wpmedia/includes/class-technical_assessment_wpmedia-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-technical_assessment_wpmedia-i18n.php';
+		require_once plugin_dir_path( dirname( __DIR__ ) ) . 'technical_assessment_wpmedia/includes/class-technical_assessment_wpmedia-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-technical_assessment_wpmedia-admin.php';
+		require_once plugin_dir_path( dirname( __DIR__ ) ) . 'technical_assessment_wpmedia/admin/class-technical_assessment_wpmedia-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-technical_assessment_wpmedia-public.php';
+		require_once plugin_dir_path( dirname( __DIR__ ) ) . 'technical_assessment_wpmedia/public/class-technical_assessment_wpmedia-public.php';
 
-		$this->loader = new Technical_assessment_wpmedia_Loader();
-
+		$this->loader = new Tawp_Technical_Assessment_Wpmedia_Loader();
 	}
 
 	/**
@@ -137,10 +134,9 @@ class Technical_assessment_wpmedia {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Technical_assessment_wpmedia_i18n();
+		$plugin_i18n = new Tawp_Technical_Assessment_Wpmedia_I18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -152,15 +148,14 @@ class Technical_assessment_wpmedia {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Technical_assessment_wpmedia_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Tawp_Technical_Assessment_Wpmedia_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_menu' );
-		$this->loader->add_action( 'crawl_home_page', $plugin_admin, 'crawl_home_page' );
-		$this->loader->add_action( 'cron_crawl_home_page', $plugin_admin, 'crawl_home_page' );
-		$this->loader->add_action ('admin_notices', $plugin_admin, 'display_information' );
-		
+		$this->loader->add_action( 'tawp_crawl_home_page', $plugin_admin, 'crawl_home_page' );
+		$this->loader->add_action( 'tawp_cron_crawl_home_page', $plugin_admin, 'crawl_home_page' );
+		$this->loader->add_action( 'tawp_admin_notices', $plugin_admin, 'display_information' );
 	}
 
 	/**
@@ -172,12 +167,11 @@ class Technical_assessment_wpmedia {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Technical_assessment_wpmedia_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Tawp_Technical_Assessment_Wpmedia_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'wp_body_open', $plugin_public, 'add_sitemap_link' );
-
 	}
 
 	/**
@@ -204,7 +198,7 @@ class Technical_assessment_wpmedia {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Technical_assessment_wpmedia_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Tawp_Technical_Assessment_Wpmedia_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -219,5 +213,4 @@ class Technical_assessment_wpmedia {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

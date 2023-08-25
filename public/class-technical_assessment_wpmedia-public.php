@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -20,7 +19,7 @@
  * @subpackage Technical_assessment_wpmedia/public
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia_Public {
+class Tawp_Technical_Assessment_Wpmedia_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -44,14 +43,13 @@ class Technical_assessment_wpmedia_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param string $plugin_name  The $plugin_name is the name of the plugin.
+	 * @param string $version      The $version is the version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version     = $version;
 	}
 
 	/**
@@ -74,7 +72,6 @@ class Technical_assessment_wpmedia_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/technical_assessment_wpmedia-public.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -97,15 +94,17 @@ class Technical_assessment_wpmedia_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/technical_assessment_wpmedia-public.js', array( 'jquery' ), $this->version, false );
-
 	}
-
-	public function add_sitemap_link () {
+	/**
+	 * Add the template public for display the sitemap link on front end.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_sitemap_link() {
 		$filepath = get_stylesheet_directory() . '/sitemap.html';
 
-		if( file_exists($filepath)) {
-			include( plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-public-display.php' );
+		if ( file_exists( $filepath ) ) {
+			include plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-public-display.php';
 		}
 	}
-
 }

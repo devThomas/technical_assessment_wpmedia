@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -43,7 +42,7 @@ define( 'TECHNICAL_ASSESSMENT_WPMEDIA_VERSION', '1.0.0' );
  */
 function activate_technical_assessment_wpmedia() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmedia-activator.php';
-	Technical_assessment_wpmedia_Activator::activate();
+	Tawp_Technical_Assessment_Wpmedia_Activator::activate();
 }
 
 /**
@@ -52,7 +51,7 @@ function activate_technical_assessment_wpmedia() {
  */
 function deactivate_technical_assessment_wpmedia() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmedia-deactivator.php';
-	Technical_assessment_wpmedia_Deactivator::deactivate();
+	Tawp_Technical_Assessment_Wpmedia_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_technical_assessment_wpmedia' );
@@ -75,7 +74,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmed
  */
 function run_technical_assessment_wpmedia() {
 
-	$plugin = new Technical_assessment_wpmedia();
+	$plugin = new Tawp_Technical_Assessment_Wpmedia();
 	$plugin->run();
 
 }

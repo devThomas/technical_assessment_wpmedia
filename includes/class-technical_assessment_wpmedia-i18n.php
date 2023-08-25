@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,7 +23,7 @@
  * @subpackage Technical_assessment_wpmedia/includes
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia_i18n {
+class Tawp_Technical_Assessment_Wpmedia_I18n {
 
 
 	/**
@@ -39,9 +38,5 @@ class Technical_assessment_wpmedia_i18n {
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
-
 	}
-
-
-
 }

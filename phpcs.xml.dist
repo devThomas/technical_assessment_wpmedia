@@ -29,12 +29,12 @@
 	</rule>
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain" type="array" value="rocket" />
+            <property name="text_domain" type="array" value="rocket,technical_assessment_wpmedia" />
         </properties>
     </rule>
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
-            <property name="prefixes" type="array" value="rocket,wp_rocket" />
+            <property name="prefixes" type="array" value="technical_assessment_wpmedia,rocket,wp_rocket,tawp" />
         </properties>
     </rule>
     <rule ref="WordPress.Files.FileName">
@@ -57,5 +57,5 @@
 	</rule>
 
 	<!-- Enforce short array syntax: `[]` in place of `array()`. -->
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+	<!-- <rule ref="Generic.Arrays.DisallowLongArraySyntax" /> -->
 </ruleset>

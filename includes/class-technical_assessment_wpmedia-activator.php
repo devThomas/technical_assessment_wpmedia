@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
@@ -20,7 +19,7 @@
  * @subpackage Technical_assessment_wpmedia/includes
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia_Activator {
+class Tawp_Technical_Assessment_Wpmedia_Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -30,7 +29,5 @@ class Technical_assessment_wpmedia_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
 	}
-
 }

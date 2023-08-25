@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provide a public-facing view for the plugin
  *
@@ -11,9 +10,10 @@
  * @package    Technical_assessment_wpmedia
  * @subpackage Technical_assessment_wpmedia/public/partials
  */
+
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <div class="sitemap-link">
-  <a href="<?php echo get_stylesheet_directory_uri() . '/sitemap.html'; ?>">My sitemap from my plugin</a>
+	<a href="<?php echo esc_url( get_stylesheet_directory_uri() ) . '/sitemap.html'; ?>">My sitemap from my plugin</a>
 </div>

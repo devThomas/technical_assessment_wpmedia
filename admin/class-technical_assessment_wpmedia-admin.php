@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -20,7 +19,7 @@
  * @subpackage Technical_assessment_wpmedia/admin
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
-class Technical_assessment_wpmedia_Admin {
+class Tawp_Technical_Assessment_Wpmedia_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -44,14 +43,13 @@ class Technical_assessment_wpmedia_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param string $plugin_name       The name of this plugin.
+	 * @param string $version           The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-
+		$this->version     = $version;
 	}
 
 	/**
@@ -74,7 +72,6 @@ class Technical_assessment_wpmedia_Admin {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/technical_assessment_wpmedia-admin.css', array(), $this->version, 'all' );
-
 	}
 
 	/**
@@ -97,112 +94,145 @@ class Technical_assessment_wpmedia_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/technical_assessment_wpmedia-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
-
-
-	public function add_menu()
-    {
-		if (current_user_can('administrator')) {
-			// add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
+	/**
+	 * Add menu My plugin in dashboard settings section.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_menu() {
+		if ( current_user_can( 'manage_options' ) ) {
 			add_options_page(
-				'my plugin', // Titre de la page
-				'my plugin', // Titre du menu
-				'manage_options', // Capacité requise pour accéder à la page
-				'my-plugin-settings', // Slug de la page
-				array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page
+				'my plugin', // Titre de la page.
+				'my plugin', // Titre du menu.
+				'manage_options', // Capacité requise pour accéder à la page.
+				'my-plugin-settings', // Slug de la page.
+				array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page.
 			);
 		}
-    }
-
-	public function display_information($info = "") {
-
-		if($info !== "") {	?>
-			<div class="notice notice-info">
-				<p><?php echo __($info, 'technical_assessment_wpmedia'); ; ?></p>
-			</div>
-		<?php
-		}
-		
 	}
-
+	/**
+	 * Display notice.
+	 *
+	 * @since    1.0.0
+	 * @param string $info  Is a string with the key of the translation message info (Need to be delete bad practice).
+	 */
+	public function display_information( $info = '' ) {
+		if ( ! empty( $info ) ) {
+			$text = '';
+			switch ( $info ) {
+				case 'cron_actif':
+					$text = __( 'cron_actif', 'technical_assessment_wpmedia' );
+					break;
+				case 'cron_not_actif':
+					$text = __( 'cron_not_actif', 'technical_assessment_wpmedia' );
+					break;
+			}
+			?>
+			<div class="notice notice-info">
+				<p><?php echo esc_html( $text ); ?></p>
+			</div>
+			<?php
+		}
+	}
+	/**
+	 * Load the admin View.
+	 *
+	 * @since    1.0.0
+	 */
 	public function admin_view() {
-        include( plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-admin-display.php' );
-    }
-
+		include plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-admin-display.php';
+	}
+	/**
+	 * Load the admin View.
+	 *
+	 * @since    1.0.0
+	 */
 	public function crawl_home_page() {
 		$urls = $this->generate_new_sitemap();
-		$this->store_temporary_data($urls);
-    }
-
+		$this->store_temporary_data( $urls );
+	}
+	/**
+	 * The main function called by the admin page for crawl the home page and create a sitemap.
+	 *
+	 * @since    1.0.0
+	 */
 	private function generate_new_sitemap() {
-
-		$sitemapPath = get_stylesheet_directory() . '/sitemap.xml';
-		if (get_transient('site_map_url_tmp_data')) {
-			delete_transient('site_map_url_tmp_data');
+		if ( isset( $_POST['tawp_nonce_field'] ) ) {
+			$tawp_nonce_field = sanitize_text_field( wp_unslash( $_POST['tawp_nonce_field'] ) );
+			if ( ! wp_verify_nonce( $tawp_nonce_field, 'tawp_nonce_action' ) ) {
+				return 'nonce_error';
+			}
 		}
-		if (file_exists($sitemapPath)) {
-			unlink($sitemapPath);
-		} 
-		if (isset($_POST['cron_checkbox']) && $_POST['cron_checkbox'] === 'on') {
-			//check if cron already exist
-			if (!wp_next_scheduled('cron_crawl_home_page')) {
-				// scale cron for crawl every hour
-				wp_schedule_event(time(), 'hourly', 'cron_crawl_home_page');
+		if ( get_transient( 'site_map_url_tmp_data' ) ) {
+			delete_transient( 'site_map_url_tmp_data' );
+		}
+		$site_map_path = get_stylesheet_directory() . '/sitemap.xml';
+		if ( file_exists( $site_map_path ) ) {
+			wp_delete_file( $site_map_path );
+		}
+		if ( isset( $_POST['cron_checkbox'] ) && 'on' === $_POST['cron_checkbox'] ) {
+			// Vérifie si le cron existe déjà.
+			if ( ! wp_next_scheduled( 'cron_crawl_home_page' ) ) {
+				// Configurer le cron pour s'exécuter toutes les heures.
+				wp_schedule_event( time(), 'hourly', 'cron_crawl_home_page' );
 			}
-		} else {
-			if(isset($_POST["crawl_home"])){
-				// delete the cron
-				wp_clear_scheduled_hook('cron_crawl_home_page');
-			}
-			
+		} elseif ( isset( $_POST['crawl_home'] ) ) {
+			// Supprimer le cron.
+			wp_clear_scheduled_hook( 'cron_crawl_home_page' );
 		}
 		return $this->sitemap_generator();
 	}
-
-	private function store_temporary_data ($data) {
+	/**
+	 * Store links Temporary data from the Crawl sitemap
+	 *
+	 * @since    1.0.0
+	 * @param array $data  Links array to be set in temp data.
+	 */
+	private function store_temporary_data( $data ) {
 		$expiration = 3600;
-		set_transient('site_map_url_tmp_data', $data, $expiration);
+		set_transient( 'site_map_url_tmp_data', $data, $expiration );
 	}
-
-	private function sitemap_generator () {
-		
-		$url = home_url();
-		$html = file_get_contents($url);
-	
-		if ($html !== false) {
-			$dom = new DOMDocument();
-			libxml_use_internal_errors(true); 
-			$dom->loadHTML($html);
+	/**
+	 * The function who crawl home and generate the sitemap from home
+	 *
+	 * @since    1.0.0
+	 */
+	private function sitemap_generator() {
+		$url      = home_url();
+		$response = wp_remote_get( $url );
+		if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
+			$html = wp_remote_retrieve_body( $response );
+			$dom  = new DOMDocument();
+			libxml_use_internal_errors( true );
+			$dom->loadHTML( $html );
 			libxml_clear_errors();
-	
-			$urls = [];
-			$links = $dom->getElementsByTagName('a');
-	
-			foreach ($links as $link) {
-				$href = $link->getAttribute('href');
-				if (!empty($href)) {
-					if (filter_var($href, FILTER_VALIDATE_URL) === false) {
-						$parsedUrl = parse_url($url);
-						$baseUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
-						$href = $baseUrl . $href;
+			$urls  = array();
+			$links = $dom->getElementsByTagName( 'a' );
+			foreach ( $links as $link ) {
+				$href = $link->getAttribute( 'href' );
+				if ( ! empty( $href ) ) {
+					if ( filter_var( $href, FILTER_VALIDATE_URL ) === false ) {
+						$parsed_url = wp_parse_url( $url );
+						$base_url   = $parsed_url['scheme'] . '://' . $parsed_url['host'];
+						$href       = $base_url . $href;
 					}
 					$urls[] = $href;
 				}
 			}
-	
 			$sitemap_html = '<html><head><title>Sitemap</title></head><body><ul>';
-			foreach ($urls as $url) {
-				$sitemap_html .= '<li><a href="' . htmlspecialchars($url) . '">' . htmlspecialchars($url) . '</a></li>';
+			foreach ( $urls as $url ) {
+				$sitemap_html .= '<li><a href="' . esc_url( $url ) . '">' . esc_html( $url ) . '</a></li>';
 			}
 			$sitemap_html .= '</ul></body></html>';
-	
-			file_put_contents(get_stylesheet_directory() . '/sitemap.html', $sitemap_html);
-			return $urls;
-
+			$upload        = wp_upload_bits( 'sitemap.html', null, $sitemap_html );
+			if ( ! $upload['error'] ) {
+				return $urls;
+			} else {
+				echo 'Issue When register file sitemap.html .';
+			}
 		} else {
-			echo 'error URL not found';
+			echo 'Error : URL not found';
 		}
 	}
-
 }
