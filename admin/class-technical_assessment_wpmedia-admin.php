@@ -115,7 +115,7 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 	 * Display notice.
 	 *
 	 * @since    1.0.0
-	 * @param string $info  Is a string with the key of the translation message info (Need to be delete bad practice).
+	 * @param string $info  Is a string with the key of the translation message info.
 	 */
 	public function display_information( $info = '' ) {
 		if ( ! empty( $info ) ) {
