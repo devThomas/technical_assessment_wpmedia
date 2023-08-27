@@ -24,6 +24,10 @@
  * Domain Path:       /languages
  */
 
+use Tawp_Technical_Assessment_Wpmedia\Tawp_Technical_Assessment_Wpmedia as Tawp_loader;
+use Tawp_Technical_Assessment_Wpmedia\Tawp_Technical_Assessment_Wpmedia_Activator;
+use Tawp_Technical_Assessment_Wpmedia\Tawp_Technical_Assessment_Wpmedia_Deactivator;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -40,7 +44,7 @@ define( 'TECHNICAL_ASSESSMENT_WPMEDIA_VERSION', '1.0.0' );
  * The code that runs during plugin activation.
  * This action is documented in includes/class-technical_assessment_wpmedia-activator.php
  */
-function activate_technical_assessment_wpmedia() {
+function tawp_activate_technical_assessment_wpmedia() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmedia-activator.php';
 	Tawp_Technical_Assessment_Wpmedia_Activator::activate();
 }
@@ -49,13 +53,15 @@ function activate_technical_assessment_wpmedia() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-technical_assessment_wpmedia-deactivator.php
  */
-function deactivate_technical_assessment_wpmedia() {
+function tawp_deactivate_technical_assessment_wpmedia() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmedia-deactivator.php';
 	Tawp_Technical_Assessment_Wpmedia_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_technical_assessment_wpmedia' );
-register_deactivation_hook( __FILE__, 'deactivate_technical_assessment_wpmedia' );
+register_activation_hook( __FILE__, 'tawp_activate_technical_assessment_wpmedia' );
+register_deactivation_hook( __FILE__, 'tawp_deactivate_technical_assessment_wpmedia' );
+
+
 
 /**
  * The core plugin class that is used to define internationalization,
@@ -72,10 +78,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-technical_assessment_wpmed
  *
  * @since    1.0.0
  */
-function run_technical_assessment_wpmedia() {
+function tawp_run_technical_assessment_wpmedia() {
 
-	$plugin = new Tawp_Technical_Assessment_Wpmedia();
+	$plugin = new Tawp_loader();
 	$plugin->run();
-
 }
-run_technical_assessment_wpmedia();
+tawp_run_technical_assessment_wpmedia();

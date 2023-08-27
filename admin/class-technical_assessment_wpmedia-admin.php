@@ -19,6 +19,9 @@
  * @subpackage Technical_assessment_wpmedia/admin
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
+
+namespace Tawp_Technical_Assessment_Wpmedia;
+
 class Tawp_Technical_Assessment_Wpmedia_Admin {
 
 	/**
@@ -203,7 +206,7 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 		$response = wp_remote_get( $url );
 		if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
 			$html = wp_remote_retrieve_body( $response );
-			$dom  = new DOMDocument();
+			$dom  = new \DOMDocument();
 			libxml_use_internal_errors( true );
 			$dom->loadHTML( $html );
 			libxml_clear_errors();

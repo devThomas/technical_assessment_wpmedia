@@ -23,6 +23,8 @@
  * @subpackage Technical_assessment_wpmedia/includes
  * @author     Thomas Boff <thomas.boff.dev@gmail.com>
  */
+namespace Tawp_Technical_Assessment_Wpmedia;
+
 class Tawp_Technical_Assessment_Wpmedia_I18n {
 
 

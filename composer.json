@@ -30,7 +30,15 @@
 		"wp-coding-standards/wpcs": "^2",
 		"wp-media/phpunit": "3.0.3"
 	},
-	"autoload": {},
+	"autoload": {
+		"psr-4": {
+			"Tawp_Technical_Assessment_Wpmedia\\": [
+				"includes/",
+				"admin/",
+				"public/"
+			]
+		}
+	},
 	"autoload-dev": {},
 	"scripts": {
 		"test-unit": "\"vendor/bin/wpmedia-phpunit\" unit path=Tests/Unit",
