@@ -1,0 +1,23 @@
+<phpunit bootstrap="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins/technical_assessment_wpmedia/Tests/bootstrap.php">
+    <testsuites>
+        <testsuite name="MonPlugin Tests">
+            <directory>./Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./includes/</directory>
+            <directory suffix=".php">./admin/</directory>
+            <exclude>
+                <directory suffix=".php">./includes/vendor/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <php>
+        <env name="WP_PLUGIN_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins" />
+        <env name="WP_TESTS_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins/technical_assessment_wpmedia/wp-tests" />
+        <env name="WP_CORE_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/" />
+    </php>
+</phpunit>

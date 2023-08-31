@@ -73,7 +73,6 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/technical_assessment_wpmedia-admin.css', array(), $this->version, 'all' );
 	}
 
@@ -106,11 +105,11 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 	public function add_menu() {
 		if ( current_user_can( 'manage_options' ) ) {
 			add_options_page(
-				'my plugin', // Titre de la page.
-				'my plugin', // Titre du menu.
-				'manage_options', // Capacité requise pour accéder à la page.
-				'my-plugin-settings', // Slug de la page.
-				array( $this, 'admin_view' ) // Fonction de rappel pour afficher la page.
+				'my plugin',
+				'my plugin',
+				'manage_options',
+				'my-plugin-settings',
+				array( $this, 'admin_view' )
 			);
 		}
 	}
@@ -154,6 +153,7 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 	public function crawl_home_page() {
 		$urls = $this->generate_new_sitemap();
 		$this->store_temporary_data( $urls );
+		return $urls;
 	}
 	/**
 	 * The main function called by the admin page for crawl the home page and create a sitemap.
@@ -170,7 +170,7 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 		if ( get_transient( 'site_map_url_tmp_data' ) ) {
 			delete_transient( 'site_map_url_tmp_data' );
 		}
-		$site_map_path = get_stylesheet_directory() . '/sitemap.xml';
+		$site_map_path = ABSPATH . '/sitemap.html';
 		if ( file_exists( $site_map_path ) ) {
 			wp_delete_file( $site_map_path );
 		}
@@ -180,7 +180,7 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 				// Configurer le cron pour s'exécuter toutes les heures.
 				wp_schedule_event( time(), 'hourly', 'cron_crawl_home_page' );
 			}
-		} elseif ( isset( $_POST['crawl_home'] ) ) {
+		} elseif ( isset( $_POST['crawl_home'] ) && ! isset( $_POST['cron_checkbox'] ) ) {
 			// Supprimer le cron.
 			wp_clear_scheduled_hook( 'cron_crawl_home_page' );
 		}
@@ -228,14 +228,19 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 				$sitemap_html .= '<li><a href="' . esc_url( $url ) . '">' . esc_html( $url ) . '</a></li>';
 			}
 			$sitemap_html .= '</ul></body></html>';
-			$upload        = wp_upload_bits( 'sitemap.html', null, $sitemap_html );
-			if ( ! $upload['error'] ) {
-				return $urls;
+			$file_path     = ABSPATH . 'sitemap.html';
+			WP_Filesystem();
+			global $wp_filesystem;
+			if ( $wp_filesystem ) {
+				if ( $wp_filesystem->put_contents( $file_path, $sitemap_html, FS_CHMOD_FILE ) ) {
+					echo 'the sitemap is created succefluy';
+					return $urls;
+				} else {
+					echo 'Une erreur s\'est produite lors de l\'enregistrement du fichier sitemap.';
+				}
 			} else {
-				echo 'Issue When register file sitemap.html .';
+				echo 'Erreur : système de fichiers non disponible.';
 			}
-		} else {
-			echo 'Error : URL not found';
 		}
 	}
 }
