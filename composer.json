@@ -41,7 +41,7 @@
 	},
 	"autoload-dev": {},
 	"scripts": {
-		"test-unit": "\"vendor/bin/phpunit\" unit path=Tests/",
+		"test-unit": "\"vendor/bin/phpunit\" tests",
 		"run-tests": [
 			"@test-unit"
 		],
