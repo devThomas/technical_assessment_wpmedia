@@ -1,4 +1,4 @@
-<phpunit bootstrap="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins/technical_assessment_wpmedia/Tests/bootstrap.php">
+<phpunit bootstrap="Tests/bootstrap.php">
     <testsuites>
         <testsuite name="MonPlugin Tests">
             <directory>./Tests</directory>
