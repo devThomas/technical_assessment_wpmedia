@@ -41,11 +41,9 @@
 	},
 	"autoload-dev": {},
 	"scripts": {
-		"test-unit": "\"vendor/bin/wpmedia-phpunit\" unit path=Tests/Unit",
-		"test-integration": "\"vendor/bin/wpmedia-phpunit\" integration path=Tests/Integration/",
+		"test-unit": "\"vendor/bin/phpunit\" unit path=Tests/",
 		"run-tests": [
-			"@test-unit",
-			"@test-integration"
+			"@test-unit"
 		],
 		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
 		"phpcs": "phpcs --basepath=.",
