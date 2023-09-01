@@ -14,10 +14,4 @@
             </exclude>
         </whitelist>
     </filter>
-
-    <php>
-        <env name="WP_PLUGIN_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins" />
-        <env name="WP_TESTS_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/wp-content/plugins/technical_assessment_wpmedia/wp-tests" />
-        <env name="WP_CORE_DIR" value="C:/xampp/htdocs/wordpress_plugin_test/" />
-    </php>
 </phpunit>
