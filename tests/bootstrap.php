@@ -12,3 +12,6 @@ if ( ! $_tests_dir ) {
 
 // Load the main WordPress tests bootstrap file.
 require_once $_tests_dir . '/includes/bootstrap.php';
+
+require_once $TRAVIS_BUILD_DIR . '/technical_assessment_wpmedia.php';
+
