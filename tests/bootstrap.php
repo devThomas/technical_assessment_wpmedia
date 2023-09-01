@@ -13,5 +13,5 @@ if ( ! $_tests_dir ) {
 // Load the main WordPress tests bootstrap file.
 require_once $_tests_dir . '/includes/bootstrap.php';
 
-require_once __DIR__ . '/technical_assessment_wpmedia.php';
+require_once __DIR__ . '/../technical_assessment_wpmedia.php';
 
