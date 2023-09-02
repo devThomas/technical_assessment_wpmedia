@@ -21,20 +21,14 @@
 		"issues": "https://github.com/wp-media/package-template/issues",
 		"source": "https://github.com/wp-media/package-template"
 	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
 	"require-dev": {
 		"php": "^5.6 || ^7",
 		"brain/monkey": "^2.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "0.7.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.0",
-		"phpunit/phpunit": "^6.0",
-		"phpunit/php-file-iterator": "^1.4",
-		"phpunit/php-code-coverage": "^5.0",
-		"phpunit/php-text-template": "^1.2",
-		"phpunit/php-timer": "^1.0",
-		"phpspec/prophecy": "^1.7",
-		"wp-coding-standards/wpcs": "^2"
+		"phpunit/phpunit": "^5.7 || ^7",
+		"wp-coding-standards/wpcs": "^2",
+		"wp-media/phpunit": "3.0.3"
 	},
 	"autoload": {
 		"psr-4": {
