@@ -21,6 +21,8 @@
 		"issues": "https://github.com/wp-media/package-template/issues",
 		"source": "https://github.com/wp-media/package-template"
 	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"require-dev": {
 		"php": "^5.6 || ^7",
 		"brain/monkey": "^2.0",
