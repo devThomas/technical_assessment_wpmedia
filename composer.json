@@ -28,7 +28,7 @@
 		"brain/monkey": "^2.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "0.7.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.0",
-		"phpunit/phpunit": "^6",
+		"phpunit/phpunit": "^6.0",
 		"phpunit/php-file-iterator": "^1.4",
 		"phpunit/php-code-coverage": "^5.0",
 		"phpunit/php-text-template": "^1.2",
