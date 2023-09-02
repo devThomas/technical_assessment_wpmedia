@@ -9,7 +9,7 @@
 
 	<file>.</file>
 	<!-- Ignoring Files and Folders: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#ignoring-files-and-folders -->
-	<exclude-pattern>/Tests/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
 
 	<!-- ** HOW TO SCAN ** -->
@@ -29,12 +29,12 @@
 	</rule>
     <rule ref="WordPress.WP.I18n">
         <properties>
-            <property name="text_domain" type="array" value="rocket,technical_assessment_wpmedia" />
+            <property name="text_domain" type="array" value="technical_assessment_wpmedia" />
         </properties>
     </rule>
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
-            <property name="prefixes" type="array" value="technical_assessment_wpmedia,rocket,wp_rocket,tawp" />
+            <property name="prefixes" type="array" value="technical_assessment_wpmedia,tawp" />
         </properties>
     </rule>
     <rule ref="WordPress.Files.FileName">
