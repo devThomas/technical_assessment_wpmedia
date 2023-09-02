@@ -1,2 +1,4 @@
 /vendor/*
 /Tests/env/local/
+/wp-tests-config.php
+/tests/bootstrap.php
