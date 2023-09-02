@@ -10,8 +10,8 @@ if ( ! $_tests_dir ) {
   $_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
 }
 
+
 // Load the main WordPress tests bootstrap file.
-require_once $_tests_dir . '/includes/bootstrap.php';
+require_once 'C:/xampp/htdocs/wordpress-tests-lib/includes/bootstrap.php';
 
 require_once __DIR__ . '/../technical_assessment_wpmedia.php';
-
