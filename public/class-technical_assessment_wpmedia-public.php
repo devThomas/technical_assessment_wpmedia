@@ -104,7 +104,7 @@ class Tawp_Technical_Assessment_Wpmedia_Public {
 	 * @since    1.0.0
 	 */
 	public function add_sitemap_link() {
-		$filepath = get_home_path() . 'sitemap.html';
+		$filepath = ABSPATH . 'sitemap.html';
 
 		if ( file_exists( $filepath ) ) {
 			include plugin_dir_path( __FILE__ ) . 'partials/technical_assessment_wpmedia-public-display.php';

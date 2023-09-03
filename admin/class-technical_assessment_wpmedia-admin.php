@@ -210,23 +210,23 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 			libxml_use_internal_errors( true );
 			$dom->loadHTML( $html );
 			libxml_clear_errors();
-			$urls  = array();
-			$links = $dom->getElementsByTagName( 'a' );
+			$urls      = array();
+			$links     = $dom->getElementsByTagName( 'a' );
+			$urls_tmp  = array();
+			$urls_html = array();
 			foreach ( $links as $link ) {
 				$href = $link->getAttribute( 'href' );
 				if ( ! empty( $href ) ) {
-					if ( filter_var( $href, FILTER_VALIDATE_URL ) === false ) {
+					if ( ! filter_var( $href, FILTER_VALIDATE_URL ) ) {
 						$parsed_url = wp_parse_url( $url );
 						$base_url   = $parsed_url['scheme'] . '://' . $parsed_url['host'];
 						$href       = $base_url . $href;
 					}
-					$urls[] = $href;
+					$urls_html[] = '<li><a href="' . esc_url( $href ) . '">' . esc_html( $href ) . '</a></li>';
+					$urls_tmp[]  = esc_url( $href );
 				}
 			}
-			$sitemap_html = '<html><head><title>Sitemap</title></head><body><ul>';
-			foreach ( $urls as $url ) {
-				$sitemap_html .= '<li><a href="' . esc_url( $url ) . '">' . esc_html( $url ) . '</a></li>';
-			}
+			$sitemap_html  = '<html><head><title>Sitemap</title></head><body><ul>' . implode( '', $urls_html ) . '</ul></body></html>';
 			$sitemap_html .= '</ul></body></html>';
 			$file_path     = ABSPATH . 'sitemap.html';
 			WP_Filesystem();
@@ -234,12 +234,12 @@ class Tawp_Technical_Assessment_Wpmedia_Admin {
 			if ( $wp_filesystem ) {
 				if ( $wp_filesystem->put_contents( $file_path, $sitemap_html, FS_CHMOD_FILE ) ) {
 					echo 'the sitemap is created succefluy';
-					return $urls;
+					return $urls_tmp;
 				} else {
-					echo 'Une erreur s\'est produite lors de l\'enregistrement du fichier sitemap.';
+					echo 'Error when register sitemap.';
 				}
 			} else {
-				echo 'Erreur : système de fichiers non disponible.';
+				echo 'Error : file system not available.';
 			}
 		}
 	}

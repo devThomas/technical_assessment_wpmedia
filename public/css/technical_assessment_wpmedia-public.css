@@ -3,13 +3,13 @@
  * included in this file.
  */
 
- .sitemap-link {
+ .tawp-sitemap-link {
     text-align: center;
     padding: 20px;
     background-color:black;
     color:white;
  }
 
- .sitemap-link > a {
+ .tawp-sitemap-link > a {
     color:white;
  }
